@@ -1,5 +1,4 @@
-# Tutorial: CI/CD and MLOps with DVC (lesson 4)
-## Machine Learning experiments reproducibility and engineering with DVC //  ML REPA School 
+
 
 ## 1. Fork this repository & clone to your local machine
 
