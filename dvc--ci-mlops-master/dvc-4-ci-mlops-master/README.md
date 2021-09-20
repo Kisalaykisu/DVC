@@ -272,7 +272,7 @@ How it works:
 * Pull changes
 * Pull all artifacts from DVC remote
 
-**Note**: deploy service repository: https://github.com/mlrepa/sklearn_deploy_service
+**Note**: deploy service repository: https://github.com/Kisalaykisu/DVC/tree/main/Sklearn_deploy_service_1/sklearn_deploy_service-master/sklearn_deploy_service-master
 
 
 ### 8.3 Test stage
