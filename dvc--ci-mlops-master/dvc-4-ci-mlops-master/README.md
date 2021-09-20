@@ -3,7 +3,7 @@
 ## 1. Fork this repository & clone to your local machine
 
 ```bash
-git clone https://gitlab.com/mlrepa/dvc-4-ci-mlops.git
+git clone https://github.com/Kisalaykisu/DVC.git
 cd dvc-4-ci-mlops
 ```
 
