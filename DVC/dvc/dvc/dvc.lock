@@ -1,0 +1,75 @@
+data_load:
+  cmd: python src/pipelines/data_load.py --config=params.yaml
+  deps:
+  - path: src/pipelines/data_load.py
+    md5: 635f956a69cc5b43bf972143c11d77c6
+  params:
+    params.yaml:
+      base:
+        project: dvc-5-demo-project-iris
+        model:
+          model_name: model.joblib
+          models_folder: models
+        reports:
+          reports_folder: reports
+        random_state: 42
+      data_load:
+        dataset_csv: data/raw/iris.csv
+  outs:
+  - path: data/raw/iris.csv
+    md5: 4224576f0267bf88902f87f0f6200967
+featurize:
+  cmd: python src/pipelines/featurize.py --config=params.yaml
+  deps:
+  - path: data/raw/iris.csv
+    md5: 4224576f0267bf88902f87f0f6200967
+  - path: src/pipelines/featurize.py
+    md5: e7bf8d6307abc7980370f60059727af2
+  params:
+    params.yaml:
+      base:
+        project: dvc-5-demo-project-iris
+        model:
+          model_name: model.joblib
+          models_folder: models
+        reports:
+          reports_folder: reports
+        random_state: 42
+      data_load:
+        dataset_csv: data/raw/iris.csv
+      featurize:
+        features_path: data/processed/featured_iris.csv
+        target_column: target
+  outs:
+  - path: data/processed/featured_iris.csv
+    md5: 5d03a1564b3038fc35a842f8e4bde491
+data_split:
+  cmd: python src/pipelines/data_split.py --config=params.yaml
+  deps:
+  - path: data/processed/featured_iris.csv
+    md5: 5d03a1564b3038fc35a842f8e4bde491
+  - path: src/pipelines/data_split.py
+    md5: dc3870568d830a4fd3b6a44afd922454
+  params:
+    params.yaml:
+      base:
+        project: dvc-5-demo-project-iris
+        model:
+          model_name: model.joblib
+          models_folder: models
+        reports:
+          reports_folder: reports
+        random_state: 42
+      data_split:
+        folder: experiments
+        train_path: data/processed/train_iris.csv
+        test_path: data/processed/test_iris.csv
+        test_size: 0.3
+      featurize:
+        features_path: data/processed/featured_iris.csv
+        target_column: target
+  outs:
+  - path: data/processed/test_iris.csv
+    md5: 68bc1ccd3c9c0da876212cde4088d619
+  - path: data/processed/train_iris.csv
+    md5: a0103fade0a27653e864b612148f5506
