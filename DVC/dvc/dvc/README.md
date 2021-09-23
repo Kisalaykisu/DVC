@@ -1,6 +1,6 @@
 
 
-# Demo Project Structure
+# Project Structure
 ------------------------
 ```
     .
