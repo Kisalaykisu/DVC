@@ -1,4 +1,5 @@
 import pandas as pd
+from pkg_resources.py2_warn import msg
 from sklearn.linear_model import LogisticRegression
 from typing import Text,Dict
 
@@ -7,6 +8,14 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
 
+import logging
+import os
+
+
+logging_str="[% (asctime)s: %(levelname)s: %(module)s] %(module)s"
+log_dir="logs"
+os.makedirs(log_dir,exist_ok=True)
+logging.basicConfig(filename=os.path.join(log_dir,"running_logs.log",level=logging.INFO,format=logging_str))
 
 class UnsupportedClassifier(Exception):
     def __init__(self,estimator_name):
@@ -19,6 +28,7 @@ def get_supported_estimator()-> Dict:
     Returns:
         Dict: supported classifiers
     """
+    logging.info("Let Create the supported estimator:")
     return{
         'logreg':LogisticRegression,
         'svm':SVC,
@@ -39,6 +49,7 @@ def train(df:pd.DataFrame,target_column:Text,
     Returns:
         trained model
     """
+    logging.info("Let start the process:")
     estimators = get_supported_estimator()
 
     if estimator_name not in estimators.keys():
@@ -67,6 +78,10 @@ def train(df:pd.DataFrame,target_column:Text,
 
 
 def train_lr(df: pd.DataFrame, target_column: Text) -> LogisticRegression:
+    
+    
+    
+    logging.info("Let start the process:")
 
     # Get X and Y
     y_train = df.loc[:, target_column].values.astype('int32')
