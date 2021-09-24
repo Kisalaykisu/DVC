@@ -8,9 +8,18 @@ from sklearn.metrics import f1_score
 from typing import Text
 import yaml
 
+
 from src.data.dataset import get_target_names
 from src.evaluate.evaluate import evaluate
 from src.report.visualize import plot_confusion_matrix
+
+import logging
+
+
+logging_str="[% (asctime)s: %(levelname)s: %(module)s] %(module)s"
+log_dir="logs"
+os.makedirs(log_dir,exist_ok=True)
+logging.basicConfig(filename=os.path.join(log_dir,"running_logs.log",level=logging.INFO,format=logging_str))
 
 
 def evaluate_model(config_path: Text) -> None:
@@ -18,7 +27,7 @@ def evaluate_model(config_path: Text) -> None:
     Args:
        config_path {Text}: path to config
     """
-
+    logging.info("Let start the creation of Evaluate pipeline:")
     config = yaml.safe_load(open(config_path))
     target_column = config['featurize']['target_column']
     model_name = config['base']['model']['model_name']
@@ -43,7 +52,7 @@ def evaluate_model(config_path: Text) -> None:
 
     )
 
-    print(f'F1 metrics file saved to : {metrics_path}')
+    logging.info(f'F1 metrics file saved to : {metrics_path}')
 
     # Save confusion_matrix.png
 
@@ -56,7 +65,7 @@ def evaluate_model(config_path: Text) -> None:
     )
 
     plt.savefig(confusion_matrix_png_path)
-    print(f'Confusion matrix saved to : {confusion_matrix_png_path}')
+    logging.info(f'Confusion matrix saved to : {confusion_matrix_png_path}')
 
     # save confusion_matrix.json
     classes_path = os.path.join(reports_folder, config['evaluate']['classes_path'])
@@ -73,7 +82,7 @@ def evaluate_model(config_path: Text) -> None:
           )
 
     df.to_csv(classes_path, index=False)
-    print(f'Classes actual/predicted saved to : {classes_path}')
+    logging.info(f'Classes actual/predicted saved to : {classes_path}')
 
 
 if __name__ == '__main__':
