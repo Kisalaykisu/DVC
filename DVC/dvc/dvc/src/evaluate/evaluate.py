@@ -4,6 +4,14 @@ from sklearn.base import BaseEstimator
 from sklearn.metrics import confusion_matrix, f1_score
 from typing import Text,Tuple
 
+import logging
+import os
+
+logging_str="[% (asctime)s: %(levelname)s: %(module)s] %(module)s"
+log_dir="logs"
+os.makedirs(log_dir,exist_ok=True)
+logging.basicConfig(filename=os.path.join(log_dir,"running_logs.log",level=logging.INFO,format=logging_str))
+
 
 def evaluate(df: pd.DataFrame, target_column: Text, clf: BaseEstimator) -> Dict:
     """Evaluate classifier on a dataset
@@ -20,7 +28,7 @@ def evaluate(df: pd.DataFrame, target_column: Text, clf: BaseEstimator) -> Dict:
             'actual' - true values for test data
             'predicted' - predicted values for test data
     """
-
+    logging.info("Let start the evaluation:")
     # Get X and Y
     y_test = df.loc[:, target_column].values.astype('int32')
     X_test = df.drop(target_column, axis=1).values.astype('float32')
