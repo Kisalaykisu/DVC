@@ -4,8 +4,16 @@ import os
 import pandas as pd
 from typing import Text
 import yaml
+import logging
 
 from src.train import train
+
+
+
+logging_str="[% (asctime)s: %(levelname)s: %(module)s] %(module)s"
+log_dir="logs"
+os.makedirs(log_dir,exist_ok=True)
+logging.basicConfig(filename=os.path.join(log_dir,"running_logs.log",level=logging.INFO,format=logging_str))
 
 
 def train_model(config_path: Text) -> None:
@@ -13,7 +21,7 @@ def train_model(config_path: Text) -> None:
     Args:
         config_path {Text}: path to config
     """
-
+    logging.info("Let start the creation of training pipeline:")
     config = yaml.safe_load(open(config_path))
     estimator_name = config['train']['estimator_name']
     param_grid = config['train']['estimators'][estimator_name]['param_grid']
@@ -28,7 +36,7 @@ def train_model(config_path: Text) -> None:
         param_grid=param_grid,
         cv=cv
     )
-    print(model.best_score_)
+    logging.info(model.best_score_)
 
     model_name = config['base']['model']['model_name']
     models_folder = config['base']['model']['models_folder']
