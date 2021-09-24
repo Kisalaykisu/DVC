@@ -1,8 +1,15 @@
 import pandas as pd
 from sklearn.datasets import load_iris
 from typing import List
+import logging
+import os
 
 
+
+logging_str="[% (asctime)s: %(levelname)s: %(module)s] %(module)s"
+log_dir="logs"
+os.makedirs(log_dir,exist_ok=True)
+logging.basicConfig(filename=os.path.join(log_dir,"running_logs.log",level=logging.INFO,format=logging_str))
 
 
 def get_dataset() -> pd.DataFrame:
@@ -11,7 +18,7 @@ def get_dataset() -> pd.DataFrame:
     Returns:
         pandas.DataFrame
     """
-
+    logging.info("Let start the process:")
     data = load_iris(as_frame=True)
 
     dataset = data.frame
