@@ -1,8 +1,15 @@
-import argparse
-from sklearn.model_selection import train_test_split
 import pandas as pd
 from typing import Text
 import yaml
+import logging
+import os
+
+
+
+logging_str="[% (asctime)s: %(levelname)s: %(module)s] %(module)s"
+log_dir="logs"
+os.makedirs(log_dir,exist_ok=True)
+logging.basicConfig(filename=os.path.join(log_dir,"running_logs.log",level=logging.INFO,format=logging_str))
 
 
 def data_split(config_path: Text) -> None:
@@ -10,7 +17,7 @@ def data_split(config_path: Text) -> None:
     Args:
        config_path {Text}: path to config
     """
-
+    logging.info("Let start the creation of data-split-pipeline:")
     config = yaml.safe_load(open(config_path))
     dataset = pd.read_csv(config['featurize']['features_path'])
 
